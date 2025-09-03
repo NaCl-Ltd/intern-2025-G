@@ -14,10 +14,25 @@
                                                turbo_confirm: "You sure?" } %>
     <% end %>
     <% if current_user?(micropost.user) %>
-      <%= link_to (micropost.pinned? ? "固定解除" : "固定"), 
-            pin_micropost_path(micropost),
-            data: { turbo_method: :patch } %>
+      <%= link_to (micropost.pinned? ? "★" : "☆"),
+      pin_micropost_path(micropost),
+      data: { turbo_method: :patch } %>
     <% end %>
-    
+    <% if !current_user?(micropost.user) %>
+<% if micropost.favorited?(current_user) %>
+  <% favorite = micropost.favorites.find_by(user_id: current_user.id) %>
+  <%= link_to "★",
+      micropost_favorite_path(micropost, favorite),
+      class: "btn btn-danger",
+      data: { turbo_method: :delete } %>
+<% else %>
+  <%= link_to "☆",
+      micropost_favorites_path(micropost),
+      class: "btn btn-primary",
+      data: { turbo_method: :post } %>
+<% end %>
+    <span>&nbsp;<%= micropost.favorites.count %>&nbsp;</span>
+    <% end %>
   </span>
+  
 </li>

@@ -23,6 +23,15 @@ Rails.application.routes.draw do
     member do
       patch :pin
     end
+    resources :favorites,       only: [:create, :destroy]
+  end
+=begin
+  resources :posts do
+    resources :favorites,       only: [:create, :destroy]
+  end
+=end
+  resources :microposts do
+    resources :favorites,       only: [:create, :destroy]
   end
   resources :relationships,       only: [:create, :destroy]
   get '/microposts', to: 'static_pages#home'
