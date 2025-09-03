@@ -29,10 +29,17 @@ class MicropostsController < ApplicationController
   end
 
   def pin
-  @micropost = Micropost.find(params[:id])
-  @micropost.update(pinned: !@micropost.pinned) # true/false をトグル
+    @micropost = Micropost.find(params[:id])
 
-  redirect_to microposts_path
+    if current_user.microposts.exists?(pinned: true)
+      current_user.microposts.update(pinned: false)
+    end
+
+    @micropost.update(pinned: !@micropost.pinned) # true/false をトグル
+
+
+
+    redirect_to microposts_path
   end
   
   private
