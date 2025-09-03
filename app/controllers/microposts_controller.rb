@@ -18,6 +18,23 @@ class MicropostsController < ApplicationController
     @microposts = Micropost.latest(current_user)
   end
 
+  def fix
+=begin    @micropost = Micropost.find(params[:id])
+    if @micropost.fixed.to_i == 1
+      @micropost.update(fixed: 0)
+    else
+      @micropost.update(fixed: 1)
+    end
+    redirect_to request.referer || root_url
+=end
+    @micropost = Micropost.find(params[:id])
+    if current_user.microposts.exists?(fixed: 1)
+      current_user.microposts.update(fixed: 0)
+    end
+    @micropost.update(fixed: 1)
+    redirect_to request.referer || root_url
+  end
+
   def destroy
     @micropost.destroy
     flash[:success] = "Micropost deleted"

@@ -10,8 +10,32 @@
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
-      <%= link_to "delete", micropost, data: { "turbo-method": :delete,
-                                               turbo_confirm: "You sure?" } %>
+      <%= link_to "delete", micropost, data: { "turbo-method": :delete, "turbo-method": "You sure?" } %>
+      <% if micropost.fixed.to_i == 1 %>
+        <%= link_to "fixed", fix_micropost_path(micropost), method: :patch, data: { "turbo-method": "Unfix this post?" } %>
+      <% else %>
+        <%= link_to "fix", fix_micropost_path(micropost), method: :patch, data: {"turbo-method": "Fix this post?" } %>
+      <% end %>
     <% end %>
   </span>
 </li>
+
+class ChangeDefaultForFixedInMicroposts < ActiveRecord::Migration[7.0]
+  def change
+    change_column_default :microposts, :fixed, 0
+    Micropost.where(fixed: nil).update_all(fixed: 0) # 既存データも修正
+  end
+end
+
+def fix
+  Rails.logger.debug "[DEBUG] fix action called for micropost_id=#{params[:id]}"
+  @micropost = Micropost.find(params[:id])
+  @micropost.update(fixed: 1)
+  redirect_to request.referer || root_url
+end
+
+resources :microposts do
+  member do
+    patch :fix
+  end
+end

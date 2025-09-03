@@ -10,7 +10,8 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(page: params[:page])
+    @microposts = @user.microposts.where(fixed: 1).order(created_at: :desc).paginate(page: params[:page])
+    @microposts_fixed = @user.microposts.where(fixed: 0).order(created_at: :desc).paginate(page: params[:page])
   end
 
   def new
