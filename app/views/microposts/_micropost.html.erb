@@ -13,5 +13,11 @@
       <%= link_to "delete", micropost, data: { "turbo-method": :delete,
                                                turbo_confirm: "You sure?" } %>
     <% end %>
+    <% if current_user?(micropost.user) %>
+      <%= link_to (micropost.pinned? ? "固定解除" : "固定"), 
+            pin_micropost_path(micropost),
+            data: { turbo_method: :patch } %>
+    <% end %>
+    
   </span>
 </li>

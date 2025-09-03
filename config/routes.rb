@@ -20,6 +20,9 @@ Rails.application.routes.draw do
     collection do
       get :latest
     end
+    member do
+      patch :pin
+    end
   end
   resources :relationships,       only: [:create, :destroy]
   get '/microposts', to: 'static_pages#home'
