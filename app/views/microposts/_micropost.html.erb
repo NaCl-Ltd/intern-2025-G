@@ -36,4 +36,18 @@
       <% end %>
     <% end %>
   </span>
+  <% if !current_user?(micropost.user) %>
+      <% if logged_in? %>
+        <% if micropost.favorited?(current_user) %>
+          <%= link_to "↪", micropost_favorites_path(micropost), 
+                    data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-primary" ,style: "background-color: #e3f2fd;"%>
+        <% else %>
+          <%= link_to "↪", micropost_favorites_path(micropost), 
+                    data: { turbo_method: :post }, class: "btn btn-sm btn-outline-primary"%>
+        <% end %>
+        <span><%= micropost.favorites.count %></span>
+      <% else %>
+      ↪ <%= micropost.favorites.count %>
+      <% end %>
+    <% end %>
 </li>
