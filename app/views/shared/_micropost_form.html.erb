@@ -1,10 +1,20 @@
-<%= form_with(model: @micropost) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
-  </div>
-  <%= f.submit "Post", class: "btn btn-primary" %>
-  <span class="image">
-    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
-  </span>
+<!-- ✅ 検索フォーム：常に表示 -->
+<%= form_tag microposts_path, method: :get, class: "search-form mb-3" do %>
+  <%= label_tag :q, "投稿検索" %>
+  <%= text_field_tag :q, params[:q], placeholder: "キーワードを入力", class: "form-control" %>
+  <%= submit_tag "検索", class: "btn btn-primary mt-2" %>
+<% end %>
+
+<!-- ✅ 投稿フォーム：検索時は非表示 -->
+<% unless params[:q].present? %>
+  <%= form_with(model: @micropost) do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+    <div class="field">
+      <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+    </div>
+    <%= f.submit "Post", class: "btn btn-primary" %>
+    <span class="image">
+      <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
+    </span>
+  <% end %>
 <% end %>

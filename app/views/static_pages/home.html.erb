@@ -8,7 +8,9 @@
         <%= render 'shared/stats' %>
       </section>
       <section class="micropost_form">
-        <%= render 'shared/micropost_form' %>
+        <% unless params[:q].present? %>
+          <%= render 'shared/micropost_form' %>
+        <% end %>
       </section>
     </aside>
     <div class="col-md-8">

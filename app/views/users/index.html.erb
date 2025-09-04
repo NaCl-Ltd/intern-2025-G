@@ -6,5 +6,10 @@
 <ul class="users">
   <%= render @users %>
 </ul>
+<%= form_tag microposts_path, method: :get, class: "search-form mb-3" do %>
+  <%= label_tag :q, "キーワード検索" %>
+  <%= text_field_tag :q, params[:q], placeholder: "投稿内容を検索", class: "form-control" %>
+  <%= submit_tag "検索", class: "btn btn-primary mt-2" %>
+<% end %>a
 
 <%= will_paginate %>
