@@ -20,6 +20,7 @@ class MicropostsController < ApplicationController
 
   def destroy
     @micropost.destroy
+  
     flash[:success] = "Micropost deleted"
     if request.referrer.nil?
       redirect_to root_url, status: :see_other
@@ -40,10 +41,20 @@ class MicropostsController < ApplicationController
 
 
     redirect_to microposts_path
+
     end
     def index
       @microposts = Micropost.search_by_content(params[:q]).order(created_at: :desc).paginate(page: params[:page])
     end
+
+
+  def retweet
+    original = Micropost.find(params[:id])
+    current_user.microposts.create(original_post_id: original.id)
+    redirect_to root_url, notice: "再投稿しました！"
+  end
+  
+
   private
 
     def micropost_params

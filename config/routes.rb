@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
     member do
       patch :pin
+      post :retweet
     end
   end
   resources :relationships,       only: [:create, :destroy]

@@ -18,6 +18,7 @@ class Micropost < ApplicationRecord
   }
 
   validates :user_id, presence: true
+
   validates :content, presence: true, length: { maximum: 140 }
   validates :image,
             content_type: { in: %w[image/jpeg image/gif image/png],
@@ -29,3 +30,15 @@ class Micropost < ApplicationRecord
     favorites.where(user_id: user.id).exists?
   end
 end
+
+  
+  def retweet?
+    original_post_id.present?
+  end
+
+  def original_post
+    return unless original_post_id
+    Micropost.find_by(id: original_post_id)
+  end
+end
+

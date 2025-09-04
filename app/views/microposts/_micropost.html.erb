@@ -1,12 +1,21 @@
 <li id="micropost-<%= micropost.id %>">
   <%= link_to gravatar_for(micropost.user, size: 50), micropost.user %>
   <span class="user"><%= link_to micropost.user.name, micropost.user %></span>
+
+  <% if micropost.retweet? %>
+    <p><%= micropost.user.name %> さんが再投稿しました:</p>
+    <div class="original-post" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; margin-left: 50px;">
+      <%= render partial: 'microposts/originalpost', locals: {micropost: micropost.original_post} %>
+    </div>
+  <% end %>
+    
   <span class="content">
     <%= micropost.content %>
     <% if micropost.image.attached? %>
-      <%= image_tag micropost.image.variant(:display) %>
+    <%= image_tag micropost.image.variant(:display) %>
     <% end %>
   </span>
+
   <span class="timestamp">
     Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     <% if current_user?(micropost.user) %>
@@ -34,6 +43,22 @@
         <span><%= micropost.favorites.count %></span>
       <% else %>
       ❤ <%= micropost.favorites.count %>
+      <% end %>
+    <% end %>
+  </span>
+
+  <span class="retweets">
+    <% if !current_user?(micropost.user) %>
+      <% if logged_in? %>
+        <% if micropost.retweet? %>
+          <%= link_to "↪", retweet_micropost_path(micropost), 
+                    class: "btn btn-sm btn-outline-primary" ,style: "background-color: #e3f2fd;"%>
+        <% else %>
+          <%= link_to "↪", retweet_micropost_path(micropost), 
+                    data: { turbo_method: :post }, class: "btn btn-sm btn-outline-primary"%>
+        <% end %>
+      <% else %>
+      ↪ 
       <% end %>
     <% end %>
   </span>
