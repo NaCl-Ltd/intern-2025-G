@@ -14,7 +14,7 @@ class Micropost < ApplicationRecord
   scope :following, ->(user) { where(user: user.following) }
   scope :latest, ->(user) { following(user).where("created_at >= ?", 2.days.ago).order(created_at: :desc).limit(10) }
   scope :search_by_content, ->(keyword) {
-    where("content ILIKE ?", "%#{sanitize_sql_like(keyword)}%") if keyword.present?
+    where("content LIKE ?", "%#{sanitize_sql_like(keyword)}%") if keyword.present?
   }
 
   validates :user_id, presence: true
