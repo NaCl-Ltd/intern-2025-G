@@ -2,7 +2,7 @@
   <div class="container">
       <%= image_tag("kouseki_colorful.png", id: "logo_icon", alt: "Ruby logo", width: "30px") %>
       <%= link_to "sample app", root_path, id: "logo" %>
-    </ul>
+    
     <nav>
       <div class="navbar-header">
         <button id="hamburger" type="button" class="navbar-toggle collapsed">
@@ -14,6 +14,14 @@
       </div>
       <ul id="navbar-menu"
           class="nav navbar-nav navbar-right">
+      <li>
+        <%= form_tag(microposts_path, method: :get, html: { class: "navbar-form", role: "search" }) do %>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <%= text_field_tag :q, params[:q], placeholder: "キーワードを入力", class: "form-control", style: "margin-bottom: 0; margin-top: 10px; width: 400px" %>
+            <%= submit_tag "検索", class: "btn btn-default", style: "margin-bottom: 0; background-color: #337ab7; border-color: #2e6da4; color: #333; margin-top: 10px; width: 100px; color: white;" %>
+          </div>
+        <% end %>
+      </li>
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <li><%= link_to t('links.latest'), latest_microposts_path %></li>
@@ -37,6 +45,7 @@
           <li><%= link_to "Log in", login_path %></li>
         <% end %>
       </ul>
+      
     </nav>
   </div>
 </header>

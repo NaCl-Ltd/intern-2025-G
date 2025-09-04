@@ -5,7 +5,15 @@ class UsersController < ApplicationController
   before_action :admin_user,     only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page])
+    if params[:q].present?
+      @microposts = Micropost.where("content LIKE ?", "%#{params[:q]}%")
+
+    else
+      @micropost = current_user.microposts.build
+      @microposts = current_user.feed
+      @users = User.paginate(page: params[:page])
+
+    end
   end
 
   def show

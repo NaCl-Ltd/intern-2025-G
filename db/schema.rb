@@ -54,6 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_04_010527) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "fixed"
     t.boolean "pinned", default: false
     t.integer "original_post_id"
     t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"

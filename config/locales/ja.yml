@@ -1,3 +1,11 @@
 ja:
   links:
     latest: "最新"
+ja:
+  activerecord:
+    errors:
+      models:
+        micropost:
+          attributes:
+            content:
+              blank: "投稿内容を入力してください" 

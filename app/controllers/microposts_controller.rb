@@ -41,7 +41,12 @@ class MicropostsController < ApplicationController
 
 
     redirect_to microposts_path
-  end
+
+    end
+    def index
+      @microposts = Micropost.search_by_content(params[:q]).order(created_at: :desc).paginate(page: params[:page])
+    end
+
 
   def retweet
     original = Micropost.find(params[:id])
@@ -49,6 +54,7 @@ class MicropostsController < ApplicationController
     redirect_to root_url, notice: "再投稿しました！"
   end
   
+
   private
 
     def micropost_params

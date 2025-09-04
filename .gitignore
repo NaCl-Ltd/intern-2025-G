@@ -15,3 +15,4 @@ config/database.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+db/migrate/20250903041448_create_favorites.rb
