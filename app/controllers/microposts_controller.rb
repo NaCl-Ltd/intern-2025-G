@@ -41,6 +41,12 @@ class MicropostsController < ApplicationController
 
     redirect_to microposts_path
   end
+
+  def retweet
+    original = Micropost.find(params[:id])
+    current_user.microposts.create(original_post: original)
+    redirect_to root_url, notice: "再投稿しました！"
+  end
   
   private
 
