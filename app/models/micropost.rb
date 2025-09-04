@@ -10,7 +10,7 @@ class Micropost < ApplicationRecord
 
   default_scope -> { order(created_at: :desc) }
 
-  # 🔽 ここに追加！
+
   scope :following, ->(user) { where(user: user.following) }
   scope :latest, ->(user) { following(user).where("created_at >= ?", 2.days.ago).order(created_at: :desc).limit(10) }
   scope :search_by_content, ->(keyword) {
