@@ -12,7 +12,7 @@ class Micropost < ApplicationRecord
   scope :following, -> (user){ where(user: user.following) }
   scope :latest, -> (user){ following(user).where("created_at >= ?", 2.day.ago).order(created_at: :desc).limit(10) }
   validates :user_id, presence: true
-  validates :content, presence: true, length: { maximum: 140 }
+  validates :content, length: { maximum: 140 }
   validates :image,   content_type: { in: %w[image/jpeg image/gif image/png],
                                       message: "must be a valid image format" },
                       size:         { less_than: 5.megabytes,
@@ -23,5 +23,10 @@ class Micropost < ApplicationRecord
 
   def retweet?
     original_post_id.present?
+  end
+
+  def original_post
+    return unless original_post_id
+    Micropost.find_by(id: original_post_id)
   end
 end

@@ -5,7 +5,7 @@
   <% if micropost.retweet? %>
     <p><%= micropost.user.name %> さんが再投稿しました:</p>
     <div class="original-post">
-      <%= render micropost.original_post %>
+      <%= render partial: 'microposts/originalpost', locals: {micropost: micropost.original_post} %>
     </div>
   <% end %>
     

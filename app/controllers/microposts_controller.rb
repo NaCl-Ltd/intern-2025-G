@@ -44,7 +44,7 @@ class MicropostsController < ApplicationController
 
   def retweet
     original = Micropost.find(params[:id])
-    current_user.microposts.create(original_post: original)
+    current_user.microposts.create(original_post_id: original.id)
     redirect_to root_url, notice: "再投稿しました！"
   end
   
