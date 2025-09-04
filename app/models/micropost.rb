@@ -6,8 +6,6 @@ class Micropost < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :favorited_by, through: :favorites, source: :user
 
-  has_one   :original_post, class_name: "Micropost", dependent: :destroy
-
   default_scope -> { order(created_at: :desc) }
   scope :following, -> (user){ where(user: user.following) }
   scope :latest, -> (user){ following(user).where("created_at >= ?", 2.day.ago).order(created_at: :desc).limit(10) }
